@@ -1,0 +1,12 @@
+lib/
+dest/
+
+node_modules
+npm-debug.log*
+
+.DS_Store
+
+.vscode/
+
+# rollup-plugins-typescript2
+.rpt2_cache/

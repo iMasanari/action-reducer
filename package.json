@@ -1,0 +1,31 @@
+{
+  "name": "action-reducer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dest/action-reducer.cjs.js",
+  "module": "dest/action-reducer.esm.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "npm run build:dest && npm run build:lib",
+    "build:dest": "rollup -c",
+    "build:lib": "tsc -p ./tsconfig.build.json",
+    "test": "npm run test:tsc && npm run test:mocha",
+    "test:tsc": "tsc -p . --noEmit --strict",
+    "test:mocha": "mocha --compilers ts:espower-typescript/guess src/*.test.ts",
+    "clean": "rm -r ./dest/* && rm -r ./lib/*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.22",
+    "@types/power-assert": "^1.4.29",
+    "espower-typescript": "^8.1.0",
+    "mocha": "^3.5.0",
+    "power-assert": "^1.4.4",
+    "rollup": "^0.45.2",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-typescript2": "^0.4.6"
+  }
+}

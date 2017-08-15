@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "declaration": true
+  },
+  "files": [
+    "src/index.ts"
+  ]
+}
