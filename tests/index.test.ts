@@ -1,5 +1,5 @@
 import * as assert from 'power-assert'
-import ActionReducer, { OptionalActionCreator } from './index'
+import ActionReducer, { OptionalActionCreator } from '../src/'
 
 interface State {
   flag: boolean
