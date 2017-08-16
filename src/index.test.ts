@@ -1,5 +1,5 @@
 import * as assert from 'power-assert'
-import ActionReducer, { CreateOptionalAction } from './index'
+import ActionReducer, { OptionalActionCreator } from './index'
 
 interface State {
   flag: boolean
@@ -128,10 +128,10 @@ describe('reducer (+ createAction)', () => {
     const DEFAULT_FLAG = true
 
     const { reducer, createAction } = ActionReducer(initState)
-    const createOptionalAction = createAction as CreateOptionalAction<State>
 
-    const optionalAction = createOptionalAction((state, payload: boolean = DEFAULT_FLAG) =>
-      ({ ...state, flag: payload })
+    const optionalAction: OptionalActionCreator<boolean> = createAction(
+      (state, payload: boolean = DEFAULT_FLAG) =>
+        ({ ...state, flag: payload })
     )
 
     for (const storeFlag of [true, false]) {
