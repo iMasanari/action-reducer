@@ -40,29 +40,29 @@ describe('createAction', () => {
   })
 
   it('check set actionType', () => {
-    const TYPE = 'test-action-type'
+    const ACTION_TYPE = 'test-action-type'
 
     const { createAction } = ActionReducer(initState)
-    const actionCreator = createAction((state) => state, TYPE)
+    const actionCreator = createAction(ACTION_TYPE, (state) => state)
     const action = actionCreator()
 
-    assert.equal(actionCreator.type, TYPE)
-    assert.equal(action.type, TYPE)
+    assert.equal(actionCreator.type, ACTION_TYPE)
+    assert.equal(action.type, ACTION_TYPE)
   })
 
   it('check set actionType symbol', () => {
-    const TYPE = Symbol('test-action-type')
+    const ACTION_TYPE = Symbol('test-action-type')
 
     const { createAction } = ActionReducer(initState)
-    const actionCreator = createAction((state) => state, TYPE)
+    const actionCreator = createAction(ACTION_TYPE, (state) => state)
     const action = actionCreator()
 
-    assert.equal(actionCreator.type, TYPE)
-    assert.equal(action.type, TYPE)
+    assert.equal(actionCreator.type, ACTION_TYPE)
+    assert.equal(action.type, ACTION_TYPE)
   })
 
   it('check ActionCreator create Action', () => {
-    const PAYLOAD = 'test-payload'
+    const PAYLOAD: string = 'test-payload'
 
     const { createAction } = ActionReducer(initState)
     const actionCreator = createAction<typeof PAYLOAD>((state) => state)

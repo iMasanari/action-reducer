@@ -21,8 +21,10 @@ export interface OptionalActionCreator<P> {
 type Reducer<S, P> = (state: S, payload: P) => S
 
 type CreateAction<S> = {
-  (reducer: Reducer<S, undefined>, type?: string | symbol): EnptyActionCreator
-  <P>(reducer: Reducer<S, P>, type?: string | symbol): PayloadActionCreator<P>
+  (reducer: Reducer<S, undefined>): EnptyActionCreator
+  (type: string | symbol, reducer: Reducer<S, undefined>): EnptyActionCreator
+  <P>(reducer: Reducer<S, P>): PayloadActionCreator<P>
+  <P>(type: string | symbol, reducer: Reducer<S, P>): PayloadActionCreator<P>
 }
 
 
@@ -32,17 +34,22 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
   const _reducers = {} as { [key: string]: Reducer<S, any> }
 
   const createAction: CreateAction<S> = <P>(
-    reducer: Reducer<S, any>,
-    type: (string | symbol) = `@@ActionReducer-${++typeId}`
+    type: string | symbol | Reducer<S, any>,
+    reducer?: Reducer<S, any>,
   ) => {
+    if (typeof type === 'function') {
+      reducer = type
+      type = `@@ActionReducer-${++typeId}`
+    }
+
     type = prefix ? `${prefix}/${type}` : type
+    
+    const actionCreator = ((payload: P) => ({ type, payload })) as PayloadActionCreator<P>
 
-    const action = ((payload: P) => ({ type, payload })) as PayloadActionCreator<P>
+    actionCreator.type = type
+    _reducers[type] = reducer!
 
-    action.type = type
-    _reducers[type] = reducer
-
-    return action
+    return actionCreator
   }
 
   const reducer = (state = initState, action: { type: any }) => {
