@@ -1,5 +1,5 @@
 lib/
-dest/
+dist/
 
 node_modules
 npm-debug.log*

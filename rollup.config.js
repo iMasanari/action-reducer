@@ -15,7 +15,7 @@ export default {
     replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
   ],
   targets: [
-    { format: 'umd', dest: `dest/${packages.name}.js` },
+    { format: 'umd', dest: `dist/${packages.name}.js` },
     { format: 'cjs', dest: packages.main },
     { format: 'es', dest: packages.module },
   ],

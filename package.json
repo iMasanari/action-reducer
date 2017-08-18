@@ -2,17 +2,17 @@
   "name": "action-reducer",
   "version": "1.0.0",
   "description": "",
-  "main": "dest/action-reducer.cjs.js",
-  "module": "dest/action-reducer.esm.js",
+  "main": "dist/action-reducer.cjs.js",
+  "module": "dist/action-reducer.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "npm run build:dest && npm run build:lib",
-    "build:dest": "rollup -c",
+    "build": "npm run build:dist && npm run build:lib",
+    "build:dist": "rollup -c",
     "build:lib": "tsc -p ./tsconfig.build.json",
     "test": "npm run test:types && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict --allowJs --allowSyntheticDefaultImports",
     "test:mocha": "mocha --compilers ts:espower-typescript/guess tests/*.test.ts",
-    "clean": "rm -r ./dest/* && rm -r ./lib/*"
+    "clean": "rm -r ./dist/* && rm -r ./lib/*"
   },
   "keywords": [],
   "author": "",
