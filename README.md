@@ -5,7 +5,7 @@ A simple ActionCreator and Reducer library that provides type-safe for TypeScrip
 ## Installation
 
 ```
-npm install --save https://github.com/iMasanari/action-reducer#dist
+npm install --save action-reducer
 ```
 
 
@@ -46,6 +46,7 @@ export const setFlag = createAction(
     ({ ...state, flag: payload })
 )
 ```
+
 ```js
 // JavaScript Salsa
 export const setFlag = createAction(
