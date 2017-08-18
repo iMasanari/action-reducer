@@ -5,6 +5,10 @@
   "main": "dist/action-reducer.cjs.js",
   "module": "dist/action-reducer.esm.js",
   "types": "lib/index.d.ts",
+  "files": [
+    "dist",
+    "lib"
+  ],
   "scripts": {
     "build": "npm run build:dist && npm run build:lib",
     "build:dist": "rollup -c",
@@ -12,11 +16,16 @@
     "test": "npm run test:types && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict --allowJs --allowSyntheticDefaultImports",
     "test:mocha": "mocha --compilers ts:espower-typescript/guess tests/*.test.ts",
-    "clean": "rm -r ./dist/* && rm -r ./lib/*"
+    "clean": "rm -r ./dist/* && rm -r ./lib/*",
+    "prepublish": "npm run test && npm run clean && npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "redux",
+    "action creator",
+    "typescript"
+  ],
+  "author": "iMasanari",
+  "license": "MIT",
   "devDependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^8.0.22",
