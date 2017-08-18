@@ -46,3 +46,17 @@ export const setFlag = createAction(
     ({ ...state, flag: payload })
 )
 ```
+
+
+## API
+
+**`ActionReducer<S>(initState, prefix?): { createAction, reducer }`**
+
+- `initState: S`: Redux initial State.
+- `prefix?: string`: Prefix for action type.
+
+**`ActionReducer<S>().createAction<P>(reducer): AcitonCreator<P>`**  
+**`ActionReducer<S>().createAction<P>(type, reducer): AcitonCreator<P>`**
+
+- `type: string | symbol`: Action type.
+- `reducer: (state: S, payload: P) => S`: Reducer for this action.
