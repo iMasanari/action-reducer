@@ -14,7 +14,7 @@
     "build:dist": "rollup -c",
     "build:lib": "tsc -p ./tsconfig.build.json",
     "test": "npm run test:types && npm run test:mocha",
-    "test:types": "tsc -p . --noEmit --strict --allowJs --allowSyntheticDefaultImports",
+    "test:types": "tsc -p . --noEmit --strict",
     "test:mocha": "mocha --compilers ts:espower-typescript/guess tests/*.test.ts",
     "clean": "rm -r ./dist/* && rm -r ./lib/*",
     "prepublish": "npm run test && npm run clean && npm run build"

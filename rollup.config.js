@@ -1,7 +1,6 @@
 // @ts-check
 
 import typescript from 'rollup-plugin-typescript2'
-// @ts-ignore
 import replace from 'rollup-plugin-replace'
 import fs from 'fs'
 

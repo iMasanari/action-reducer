@@ -46,12 +46,3 @@ export const setFlag = createAction(
     ({ ...state, flag: payload })
 )
 ```
-
-```js
-// JavaScript Salsa
-export const setFlag = createAction(
-  /** @param {boolean} payload */
-  (state, payload) =>
-    ({ ...state, flag: payload })
-)
-```
