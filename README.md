@@ -1,4 +1,5 @@
 # ActionReducer
+
 A simple ActionCreator and Reducer library that provides type-safe for TypeScript.
 
 
@@ -18,10 +19,12 @@ import ActionReducer from 'action-reducer'
 const initState = { flag: false }
 const { createAction, reducer } = ActionReducer(initState)
 
-// setFlag is `(payload: boolean) => Action<boolean>`
-export const setFlag = createAction<boolean>(
-  'SET_FLAG',         // action type (Optional arg)
-  (state, payload) => // Reducer for this action
+// If strictNullChecks option is enabled and TypeScript 2.4.1 or later,
+// just specify the type in the payload.
+// There is no need for non-intuitive `createAction<boolean>(...)`!
+export const setFlag = createAction(
+  'SET_FLAG',                  // action type (Optional arg)
+  (state, payload: boolean) => // Reducer for this action
     ({ ...state, flag: payload })
 )
 
@@ -34,29 +37,14 @@ reducer({ flag: false }, setFlag(true)) // { flag: true }
 ```
 
 
-### TypeScript v2.4.1 or higher & strictNullChecks option
-
-You can write type parameters in more intuitive places.  
-`createAction<boolean>` -> `(state, payload: boolean)`
-
-```ts
-// TypeScript
-export const setFlag = createAction(
-  (state, payload: boolean) =>
-    ({ ...state, flag: payload })
-)
-```
-
-
 ## API
 
-**`ActionReducer<S>(initState, prefix?): { createAction, reducer }`**
+### `ActionReducer<S>(initState, prefix?): { createAction, reducer }`
 
-- `initState: S`: Redux initial State.
+- `initState: S`: Redux initial State. (Optional arg)
 - `prefix?: string`: Prefix for action type.
 
-**`ActionReducer<S>().createAction<P>(reducer): AcitonCreator<P>`**  
-**`ActionReducer<S>().createAction<P>(type, reducer): AcitonCreator<P>`**
+### `ActionReducer<S>(...).createAction<P>(type?, reducer): AcitonCreator<P>`
 
-- `type: string | symbol`: Action type.
+- `type?: string | symbol`: Action type. (Optional arg)
 - `reducer: (state: S, payload: P) => S`: Reducer for this action.
