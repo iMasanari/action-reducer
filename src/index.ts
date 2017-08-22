@@ -42,7 +42,7 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}/${type}` : type
+    type = prefix ? `${prefix}${type}` : type
     
     const actionCreator = ((payload: P) => ({ type, payload })) as PayloadActionCreator<P>
 
