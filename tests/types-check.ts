@@ -1,27 +1,25 @@
 import ActionReducer, { OptionalActionCreator, Action } from '../src/'
 
 const initState = { flag: false }
-const { createAction, reducer } = ActionReducer(initState)
+const { createAction } = ActionReducer(initState)
 
-export default reducer
-
-export const enptyActionCreator = createAction(
+const enptyActionCreator = createAction(
   (state) =>
     ({ ...state, flag: !state.flag })
 )
 
-export const payloadActionCreator = createAction<boolean>(
+const payloadActionCreator = createAction<boolean>(
   (state, payload) =>
     ({ ...state, flag: payload })
 )
 
 // TypeScript v2.4.1 or higher & strictNullChecks option
-export const payloadActionCreator2 = createAction(
+const payloadActionCreator2 = createAction(
   (state, payload: boolean) =>
     ({ ...state, flag: payload })
 )
 
-export const optionalActionCreator: OptionalActionCreator<boolean> = createAction(
+const optionalActionCreator: OptionalActionCreator<boolean> = createAction(
   (state, payload: boolean = true) =>
     ({ ...state, flag: payload })
 )
