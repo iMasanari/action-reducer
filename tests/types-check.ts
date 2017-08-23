@@ -1,6 +1,8 @@
 import ActionReducer, { OptionalActionCreator, Action } from '../src/'
 
-const initState = { flag: false }
+interface State { flag: boolean }
+
+const initState: State = { flag: false }
 const { createAction } = ActionReducer(initState)
 
 const enptyActionCreator = createAction(
