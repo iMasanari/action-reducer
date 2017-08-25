@@ -27,7 +27,7 @@ describe('createAction', () => {
   })
 
   it('check actionType prefix', () => {
-    const PREFIX = 'test-prefix'
+    const PREFIX = 'test-prefix/'
 
     const { createAction } = ActionReducer(initState, PREFIX)
     const actionCreator = createAction((state) => state)
@@ -59,6 +59,18 @@ describe('createAction', () => {
 
     assert.equal(actionCreator.type, ACTION_TYPE)
     assert.equal(action.type, ACTION_TYPE)
+  })
+
+  it('check set prefix and actionType', () => {
+    const PREFIX = 'test-prefix/'
+    const ACTION_TYPE = 'test-action-type'
+
+    const { createAction } = ActionReducer(initState, PREFIX)
+    const actionCreator = createAction(ACTION_TYPE, (state) => state)
+    const action = actionCreator()
+
+    assert.equal(actionCreator.type, PREFIX + ACTION_TYPE)
+    assert.equal(action.type, PREFIX + ACTION_TYPE)
   })
 
   it('check ActionCreator create Action', () => {
