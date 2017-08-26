@@ -12,8 +12,9 @@
     "build": "npm run build:rollup && npm run build:rename",
     "build:rollup": "rollup -c",
     "build:rename": "mv dist/index.d.ts dist/action-reducer.d.ts",
-    "test": "npm run test:types && npm run test:mocha",
+    "test": "npm run test:types && npm run test:types-nullable && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict",
+    "test:types-nullable": "tsc -p . --noEmit --strict --strictNullChecks false",
     "test:mocha": "mocha --compilers ts:espower-typescript/guess tests/*.test.ts",
     "clean": "rm -r ./dist/*",
     "prepare": "npm run test && npm run clean && npm run build"

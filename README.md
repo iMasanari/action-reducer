@@ -43,16 +43,10 @@ reducer({ flag: false }, setFlag(true)) // { flag: true }
 ### TypeScript
 
 ```ts
-export const setFlag = createAction<boolean>(
-  'SET_FLAG',
-  (state, payload) =>
-    ({ ...state, flag: payload })
-)
-
-// If strictNullChecks option is enabled and TypeScript 2.4.1 or later,
+// just specify the type in the payload argument
 export const setFlag = createAction(
   'SET_FLAG',
-  (state, payload: boolean) => // just specify the type in the payload
+  (state, payload: boolean) =>
     ({ ...state, flag: payload })
 )
 ```

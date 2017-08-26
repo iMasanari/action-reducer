@@ -15,7 +15,6 @@ const payloadActionCreator = createAction<boolean>(
     ({ ...state, flag: payload })
 )
 
-// TypeScript v2.4.1 or higher & strictNullChecks option
 const payloadActionCreator2 = createAction(
   (state, payload: boolean) =>
     ({ ...state, flag: payload })

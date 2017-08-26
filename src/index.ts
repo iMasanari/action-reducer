@@ -26,8 +26,9 @@ export interface OptionalActionCreator<P> {
 export type ReducerFragment<S, P> = (state: Readonly<S>, payload: P) => S
 
 export interface CreateEnptyActionCreator<S> {
-  (reducer: ReducerFragment<S, undefined>): EnptyActionCreator
-  (type: string | symbol, reducer: ReducerFragment<S, undefined>): EnptyActionCreator
+  // Use `void` instead of `undefined` for when strictNullChecks is disabled
+  (reducer: ReducerFragment<S, void>): EnptyActionCreator
+  (type: string | symbol, reducer: ReducerFragment<S, void>): EnptyActionCreator
 }
 
 export interface CreatePayloadActionCreator<S> {
