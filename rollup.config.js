@@ -7,15 +7,15 @@ import fs from 'fs'
 const packages = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 
 export default {
-  entry: './src/index.ts',
-  moduleName: 'ActionReducer',
+  input: './src/index.ts',
+  name: 'ActionReducer',
   plugins: [
     typescript({ tsconfig: 'tsconfig.build.json' }),
     replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
   ],
-  targets: [
-    { format: 'umd', dest: `dist/${packages.name}.js` },
-    { format: 'cjs', dest: packages.main },
-    { format: 'es', dest: packages.module },
+  output: [
+    { format: 'umd', file: `dist/${packages.name}.js` },
+    { format: 'cjs', file: packages.main },
+    { format: 'es', file: packages.module },
   ],
 }
