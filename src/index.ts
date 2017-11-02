@@ -36,20 +36,17 @@ export interface CreatePayloadActionCreator<S> {
   <P>(type: string | symbol, reducer: ReducerFragment<S, P>): PayloadActionCreator<P>
 }
 
-export interface CreateAction<S> extends
-  CreateEnptyActionCreator<S>,
-  CreatePayloadActionCreator<S>
-{ }
+export interface CreateAction<S> extends CreateEnptyActionCreator<S>, CreatePayloadActionCreator<S> { }
 
 
 let typeId = 0
 
 export default function ActionReducer<S>(initState: S, prefix?: string) {
-  const _reducers = {} as { [key: string]: ReducerFragment<S, any> }
+  const _reducers = {} as Record<string, ReducerFragment<S, any>>
 
   const createAction: CreateAction<S> = <P>(
-    type: string | symbol | ReducerFragment<S, any>,
-    reducer?: ReducerFragment<S, any>,
+    type: string | symbol | ReducerFragment<S, P>,
+    reducer?: ReducerFragment<S, P>,
   ) => {
     if (typeof type === 'function') {
       reducer = type
@@ -58,7 +55,7 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
 
     type = prefix ? `${prefix}${type}` : type
 
-    const actionCreator = ((payload?: P) => ({ type, payload })) as EnptyActionCreator
+    const actionCreator = ((payload?: P) => ({ type, payload })) as OptionalActionCreator<P>
 
     actionCreator.type = type
     _reducers[type] = reducer!
@@ -67,7 +64,7 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
   }
 
   const reducer = (state = initState, action: AnyAction) => {
-    const reducer = _reducers[action.type] as ReducerFragment<S, any>
+    const reducer = _reducers[action.type]
 
     return reducer ? reducer(state, action.payload) : state
   }
