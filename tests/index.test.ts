@@ -82,15 +82,6 @@ describe('createAction', () => {
 
     assert.deepEqual(action, { type: actionCreator.type, payload: PAYLOAD })
   })
-
-  it('check append reducers', () => {
-    const REDUCER = (state: State) => state
-
-    const { createAction, ['_reducers' as any]: _reducers } = ActionReducer(initState)
-    const actionCreator = createAction(REDUCER)
-
-    assert.equal(_reducers[actionCreator.type], REDUCER)
-  })
 })
 
 describe('reducer (+ createAction)', () => {

@@ -42,7 +42,7 @@ export interface CreateAction<S> extends CreateEnptyActionCreator<S>, CreatePayl
 let typeId = 0
 
 export default function ActionReducer<S>(initState: S, prefix?: string) {
-  const _reducers = {} as Record<string, ReducerFragment<S, any>>
+  const reducerFragments = {} as Record<string, ReducerFragment<S, any>>
 
   const createAction: CreateAction<S> = <P>(
     type: string | symbol | ReducerFragment<S, P>,
@@ -58,21 +58,15 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
     const actionCreator = ((payload?: P) => ({ type, payload })) as OptionalActionCreator<P>
 
     actionCreator.type = type
-    _reducers[type] = reducer!
+    reducerFragments[type] = reducer!
 
     return actionCreator
   }
 
   const reducer = (state = initState, action: AnyAction) => {
-    const reducer = _reducers[action.type]
+    const reducerFragment = reducerFragments[action.type]
 
-    return reducer ? reducer(state, action.payload) : state
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    const resultType = { createAction, reducer }
-
-    return { createAction, reducer, _reducers } as typeof resultType
+    return reducerFragment ? reducerFragment(state, action.payload) : state
   }
 
   return { createAction, reducer }
