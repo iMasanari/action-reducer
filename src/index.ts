@@ -42,7 +42,7 @@ export interface CreateAction<S> extends CreateEnptyActionCreator<S>, CreatePayl
 let typeId = 0
 
 export default function ActionReducer<S>(initState: S, prefix?: string) {
-  const reducerFragments = {} as Record<string, ReducerFragment<S, any>>
+  const reducerFragments = Object.create(null) as Record<string, ReducerFragment<S, any>>
 
   const createAction: CreateAction<S> = <P>(
     type: string | symbol | ReducerFragment<S, P>,

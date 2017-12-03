@@ -93,14 +93,19 @@ describe('reducer (+ createAction)', () => {
     assert.deepEqual(state, initState)
   })
 
+  it('check unregistered action-type `toString`', () => {
+    const { reducer } = ActionReducer(initState)
+    const action = { type: 'toString' }
+    const state = reducer(undefined, action)
+
+    assert.deepEqual(state, initState)
+  })
+
   it('check reducers called (enpty payload action)', () => {
     const { reducer, createAction } = ActionReducer(initState)
-    const toggleFlag = createAction((state) => {
-      return {
-        ...state,
-        flag: !state.flag
-      }
-    })
+    const toggleFlag = createAction((state) =>
+      ({ ...state, flag: !state.flag })
+    )
 
     for (const FLAG of [true, false]) {
       const store = { ...initState, flag: FLAG }
