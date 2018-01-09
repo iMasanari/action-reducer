@@ -15,7 +15,7 @@
     "test": "npm run test:types && npm run test:types-nullable && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict",
     "test:types-nullable": "tsc -p . --noEmit --strict --strictNullChecks false",
-    "test:mocha": "mocha --compilers ts:espower-typescript/guess tests/*.test.ts",
+    "test:mocha": "mocha --require ts-node/register tests/*.test.ts",
     "clean": "rm -r ./dist/*",
     "prepare": "npm run test && npm run clean && npm run build"
   },
@@ -35,11 +35,11 @@
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",
     "@types/power-assert": "^1.4.29",
-    "espower-typescript": "^8.1.2",
     "mocha": "^4.0.1",
     "power-assert": "^1.4.4",
     "rollup": "^0.52.0",
     "rollup-plugin-typescript2": "^0.8.4",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   }
 }
