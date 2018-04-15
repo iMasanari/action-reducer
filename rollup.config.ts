@@ -5,7 +5,6 @@ const entry = './src/index.ts'
 
 export default {
   input: entry,
-  name: 'ActionReducer',
   plugins: [
     typescript({
       tsconfigOverride: { files: [entry] },
@@ -13,7 +12,7 @@ export default {
     }),
   ],
   output: [
-    { format: 'umd', file: `dist/${packages.name}.js` },
+    { format: 'umd', file: `dist/${packages.name}.js`, name: 'ActionReducer' },
     { format: 'cjs', file: packages.main },
     { format: 'es', file: packages.module },
   ],
