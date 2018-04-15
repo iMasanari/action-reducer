@@ -4,14 +4,15 @@
     "lib": [
       "dom",
       "es5",
-      "es2015.promise",
       "es2015.symbol"
     ],
+    "outDir": "dist",
+    "declaration": true,
+    "declarationDir": "dist/types",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "declaration": true
+    "noFallthroughCasesInSwitch": true
   },
   "exclude": [
     "src/action-reducer.d.ts",

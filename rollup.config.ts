@@ -1,13 +1,14 @@
 import typescript from 'rollup-plugin-typescript2'
 
 const packages = require('./package.json')
+const entry = './src/index.ts'
 
 export default {
-  input: './src/index.ts',
+  input: entry,
   name: 'ActionReducer',
   plugins: [
     typescript({
-      tsconfig: 'tsconfig.build.json',
+      tsconfigOverride: { files: [entry] },
       useTsconfigDeclarationDir: true
     }),
   ],
