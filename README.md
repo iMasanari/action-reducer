@@ -1,12 +1,12 @@
 # ActionReducer
 
-A simple ActionCreator and Reducer library that provides type-safe for TypeScript.
+A simple ActionCreator and Reducer library that provides type-safe for TypeScript & Flow.
 
 
 ## Installation
 
 ```
-npm install --save action-reducer
+npm install action-reducer
 ```
 
 
@@ -35,12 +35,12 @@ export const setFlag = createAction(
     ({ ...state, flag: payload })
 )
 
-setFlag.type // 'SET_FLAG'
+setFlag.type  // 'SET_FLAG'
 setFlag(true) // { type: 'SET_FLAG', payload: true }
 reducer({ flag: false }, setFlag(true)) // { flag: true }
 ```
 
-### TypeScript
+### TypeScript / Flow
 
 ```ts
 // just specify the type in the payload argument
