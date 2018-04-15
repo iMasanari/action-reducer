@@ -9,12 +9,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run build:rollup && npm run build:rename",
+    "build": "npm run build:rollup && npm run build:rename && npm run build:flow",
     "build:rollup": "rollup -c",
     "build:rename": "mv dist/index.d.ts dist/action-reducer.d.ts",
-    "test": "npm run test:types && npm run test:types-nullable && npm run test:mocha",
+    "build:flow": "cpx \"src/*.js.flow\" dist",
+    "test": "npm run test:types && npm run test:types-nullable && npm run test:flow && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict",
     "test:types-nullable": "tsc -p . --noEmit --strict --strictNullChecks false",
+    "test:flow": "flow check",
     "test:mocha": "mocha --require ts-node/register tests/*.test.ts",
     "clean": "rm -r ./dist/*",
     "prepare": "npm run test && npm run clean && npm run build"
@@ -35,6 +37,8 @@
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.53",
     "@types/power-assert": "^1.4.29",
+    "cpx": "^1.5.0",
+    "flow-bin": "^0.69.0",
     "mocha": "^4.0.1",
     "power-assert": "^1.4.4",
     "rollup": "^0.52.0",
