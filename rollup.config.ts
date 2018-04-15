@@ -1,9 +1,6 @@
-// @ts-check
-
 import typescript from 'rollup-plugin-typescript2'
-import fs from 'fs'
 
-const packages = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+const packages = require('./package.json')
 
 export default {
   input: './src/index.ts',

@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "npm run build:rollup && npm run build:cpx",
-    "build:rollup": "rollup -c",
+    "build:rollup": "rollup -c rollup.config.ts",
     "build:cpx": "cpx \"src/*.{d.ts,js.flow}\" dist",
     "test": "npm run test:types && npm run test:types-nullable && npm run test:flow && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict",
