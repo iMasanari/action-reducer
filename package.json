@@ -9,10 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run build:rollup && npm run build:rename && npm run build:flow",
+    "build": "npm run build:rollup && npm run build:cpx",
     "build:rollup": "rollup -c",
-    "build:rename": "mv dist/index.d.ts dist/action-reducer.d.ts",
-    "build:flow": "cpx \"src/*.js.flow\" dist",
+    "build:cpx": "cpx \"src/*.{d.ts,js.flow}\" dist",
     "test": "npm run test:types && npm run test:types-nullable && npm run test:flow && npm run test:mocha",
     "test:types": "tsc -p . --noEmit --strict",
     "test:types-nullable": "tsc -p . --noEmit --strict --strictNullChecks false",

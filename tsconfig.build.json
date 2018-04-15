@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "es6",
     "moduleResolution": "node",
-    "outDir": "dist"
+    "outDir": "dist",
+    "declarationDir": "dist/types"
   },
   "files": [
     "src/index.ts"

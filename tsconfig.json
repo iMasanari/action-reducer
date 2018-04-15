@@ -12,5 +12,8 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "declaration": true
-  }
+  },
+  "exclude": [
+    "src/action-reducer.d.ts"
+  ]
 }

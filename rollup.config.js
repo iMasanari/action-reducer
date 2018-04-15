@@ -9,7 +9,10 @@ export default {
   input: './src/index.ts',
   name: 'ActionReducer',
   plugins: [
-    typescript({ tsconfig: 'tsconfig.build.json' }),
+    typescript({
+      tsconfig: 'tsconfig.build.json',
+      useTsconfigDeclarationDir: true
+    }),
   ],
   output: [
     { format: 'umd', file: `dist/${packages.name}.js` },
