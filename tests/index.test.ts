@@ -1,5 +1,5 @@
 import * as assert from 'power-assert'
-import ActionReducer, { OptionalActionCreator } from '../src/'
+import ActionReducer from '../src/'
 
 interface State {
   flag: boolean
@@ -77,10 +77,10 @@ describe('createAction', () => {
     const PAYLOAD: string = 'test-payload'
 
     const { createAction } = ActionReducer(initState)
-    const actionCreator = createAction<typeof PAYLOAD>((state) => state)
+    const actionCreator = createAction((state, _payload: string) => state)
     const action = actionCreator(PAYLOAD)
 
-    assert.deepEqual(action, { type: actionCreator.type, payload: PAYLOAD })
+    assert.deepEqual(action, { type: actionCreator.type, payload: [PAYLOAD] })
   })
 })
 
@@ -137,7 +137,7 @@ describe('reducer (+ createAction)', () => {
 
     const { reducer, createAction } = ActionReducer(initState)
 
-    const optionalAction: OptionalActionCreator<boolean> = createAction(
+    const optionalAction = createAction(
       (state, payload: boolean = DEFAULT_FLAG) =>
         ({ ...state, flag: payload })
     )
