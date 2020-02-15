@@ -64,10 +64,7 @@ const ActionReducer: ActionReducer = <S>(initState: S, prefix?: string) => {
   const reducer = (state = initState, action: AnyAction) => {
     const mutation = mutations[action.type]
 
-    return mutation
-      // mutation(state, ...action.payload)
-      ? mutation.apply(void 0, ([state] as any).concat(action.payload))
-      : state
+    return mutation ? mutation(state, ...action.payload) : state
   }
 
   return { createAction, reducer }

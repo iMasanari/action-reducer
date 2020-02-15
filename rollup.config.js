@@ -1,11 +1,14 @@
-import typescript from '@rollup/plugin-typescript'
+// @ts-check
 
-const packages = require('./package.json')
+import typescript from '@rollup/plugin-typescript'
+import buble from '@rollup/plugin-buble'
+import packages from './package.json'
 
 export default {
   input: './src/index.ts',
   plugins: [
     typescript(),
+    buble(),
   ],
   output: [
     { format: 'umd', file: `dist/${packages.name}.js`, name: 'ActionReducer' },
