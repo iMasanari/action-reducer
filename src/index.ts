@@ -53,12 +53,12 @@ export default function ActionReducer<S>(initState: S, prefix?: string) {
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}${type}` : type
+    type = prefix ? `${prefix}${type as string}` : type
 
     const actionCreator = ((payload?: P) => ({ type, payload })) as OptionalActionCreator<P>
 
     actionCreator.type = type
-    reducerFragments[type] = reducer!
+    reducerFragments[type as string] = reducer!
 
     return actionCreator
   }
