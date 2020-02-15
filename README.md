@@ -1,6 +1,7 @@
 # ActionReducer
 
-A simple ActionCreator and Reducer library that provides type-safe for TypeScript & Flow.
+A simple ActionCreator and Reducer library that provides type-safe for TypeScript.  
+Used for React (`useReducer`), Redux, etc.
 
 
 ## Installation
@@ -31,23 +32,23 @@ export const toggleFlag = createAction(
 
 export const setFlag = createAction(
   'SET_FLAG',
-  (state, payload) =>
-    ({ ...state, flag: payload })
+  (state, arg1, /* arg2, arg3... */) =>
+    ({ ...state, flag: arg1 })
 )
 
 setFlag.type  // 'SET_FLAG'
 setFlag(true) // { type: 'SET_FLAG', payload: true }
-reducer({ flag: false }, setFlag(true)) // { flag: true }
+reducer(initState, setFlag(true)) // { flag: true }
 ```
 
-### TypeScript / Flow
+### TypeScript
 
 ```ts
-// just specify the type in the payload argument
+// just specify the type in the argument
 export const setFlag = createAction(
   'SET_FLAG',
-  (state, payload: boolean) =>
-    ({ ...state, flag: payload })
+  (state, arg1: boolean) =>
+    ({ ...state, flag: arg1 })
 )
 ```
 
@@ -74,12 +75,25 @@ export default combineReducers({
 
 ## API
 
-### `ActionReducer<S>(initState, prefix?): { createAction, reducer }`
+### `ActionReducer<State>(initState, prefix?)`
 
-- `initState: S`: Redux initial State.
-- `prefix?: string`: Prefix for action type. (Optional arg)
+- initState (`State`): Redux initial State.
+- prefix? (`string`): Prefix for action type. (Optional arg)
+- return (`{ createAction: CreateAction, reducer: Reducer }`): CreateAction and Reducer.
 
-### `ActionReducer<S>(...).createAction<P>(type?, reducer): AcitonCreator<P>`
+### `CreateAction<Payload>(type?, mutation)`
 
-- `type?: string | symbol`: Action type. (Optional arg)
-- `reducer: (state: S, payload: P) => S`: Reducer for this action.
+- type? (`string | symbol`): Action type. (Optional arg)
+- mutation (`(state: State, ...args: Payload) => State`): Mutation for this action.
+- return (`AcitonCreator`): Action creator function.
+
+### `AcitonCreator(...args: Payload)`
+
+- ...args (`Payload`): Action args.
+- return (`{ type: string | symbol, payload: Payload }`): Action object.
+
+### `Reducer(state: State | undefined, action: any)`
+
+- state (`State`): Current state.
+- action (`any`): Action object.
+- return (`State`): New state.
