@@ -1,6 +1,6 @@
 {
   "name": "action-reducer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Type-safe ActionCreator and Reducer library",
   "main": "dist/action-reducer.cjs.js",
   "module": "dist/action-reducer.esm.js",
