@@ -17,6 +17,8 @@ npm install action-reducer
 
 ```js
 import ActionReducer from 'action-reducer'
+// OR
+// const ActionReducer = require('action-reducer').default
 
 const initState = { flag: false }
 const { createAction, reducer } = ActionReducer(initState)
@@ -60,7 +62,7 @@ You can use it the same way as before.
 // components/some-component.js
 import { setFlag, toggleFlag } from '../modules/flag'
 
-props.dispatch(setFlag(true))
+dispatch(setFlag(true))
 ```
 
 ```js

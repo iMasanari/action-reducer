@@ -10,9 +10,17 @@ export default {
     typescript(),
     buble(),
   ],
-  output: [
-    { format: 'umd', file: `dist/${packages.name}.js`, name: 'ActionReducer' },
-    { format: 'cjs', file: packages.main },
-    { format: 'es', file: packages.module },
-  ],
+  output: [{
+    format: 'umd',
+    file: `dist/${packages.name}.js`,
+    name: 'ActionReducer',
+    exports: 'named',
+  }, {
+    format: 'cjs',
+    file: packages.main,
+    exports: 'named',
+  }, {
+    format: 'es',
+    file: packages.module,
+  }],
 }
