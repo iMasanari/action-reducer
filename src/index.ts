@@ -3,71 +3,71 @@ export interface AnyAction {
   [extraProps: string]: any
 }
 
-export interface Action<P> {
-  type: string | symbol
+export interface Action<P, T extends string | symbol> {
+  type: T
   payload: P
 }
 
-export interface PayloadActionCreator<P> {
-  (payload: P): Action<P>
-  type: string | symbol
+export interface ActionCreator<P extends unknown[], T extends string | symbol> {
+  (...args: P): Action<P, T>
+  type: T
 }
 
-export interface EnptyActionCreator {
-  (): Action<undefined>
-  type: string | symbol
+export type Mutation<S, P extends unknown[]> = (state: Readonly<S>, ...payload: P) => S
+
+export interface CreateAction<S> {
+  <P extends unknown[], T extends string | symbol>(type: T, mutation: Mutation<S, P>): ActionCreator<P, T>
+  <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
+  <P extends unknown[]>(type: string | symbol, mutation: Mutation<S, P>): ActionCreator<P, string | symbol>
 }
 
-export interface OptionalActionCreator<P> {
-  (payload?: P): Action<P | undefined>
-  type: string | symbol
+export interface CreateActionWithPrefix<S> {
+  <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
+  <P extends unknown[]>(type: string, mutation: Mutation<S, P>): ActionCreator<P, string>
 }
 
-export type ReducerFragment<S, P> = (state: Readonly<S>, payload: P) => S
-
-export interface CreateEnptyActionCreator<S> {
-  // Use `void` instead of `undefined` for when strictNullChecks is disabled
-  (reducer: ReducerFragment<S, void>): EnptyActionCreator
-  (type: string | symbol, reducer: ReducerFragment<S, void>): EnptyActionCreator
+interface ActionReducer {
+  <S>(initState: S, prefix: string): {
+    createAction: CreateActionWithPrefix<S>
+    reducer: (state: S | undefined, action: AnyAction) => S
+  }
+  <S>(initState: S): {
+    createAction: CreateAction<S>
+    reducer: (state: S | undefined, action: AnyAction) => S
+  }
 }
-
-export interface CreatePayloadActionCreator<S> {
-  <P>(reducer: ReducerFragment<S, P>): PayloadActionCreator<P>
-  <P>(type: string | symbol, reducer: ReducerFragment<S, P>): PayloadActionCreator<P>
-}
-
-export interface CreateAction<S> extends CreateEnptyActionCreator<S>, CreatePayloadActionCreator<S> { }
-
 
 let typeId = 0
 
-export default function ActionReducer<S>(initState: S, prefix?: string) {
-  const reducerFragments = Object.create(null) as Record<string, ReducerFragment<S, any>>
+const ActionReducer: ActionReducer = <S>(initState: S, prefix?: string) => {
+  const mutations = Object.create(null) as Record<string, Mutation<S, unknown[]> | undefined>
 
-  const createAction: CreateAction<S> = <P>(
-    type: string | symbol | ReducerFragment<S, P>,
-    reducer?: ReducerFragment<S, P>,
+  const createAction = <P extends unknown[]>(
+    type: string | symbol | Mutation<S, P>,
+    mutation?: Mutation<S, P>,
   ) => {
     if (typeof type === 'function') {
-      reducer = type
+      mutation = type
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}${type}` : type
+    type = prefix ? `${prefix}${type as string}` : type
 
-    const actionCreator = ((payload?: P) => ({ type, payload })) as OptionalActionCreator<P>
+    const actionCreator = ((...payload: P) => ({ type, payload })) as ActionCreator<P, string>
 
-    actionCreator.type = type
-    reducerFragments[type] = reducer!
+    actionCreator.type = (type) as string
+    mutations[type as string] = mutation as Mutation<S, unknown[]>
 
     return actionCreator
   }
 
   const reducer = (state = initState, action: AnyAction) => {
-    const reducerFragment = reducerFragments[action.type]
+    const mutation = mutations[action.type]
 
-    return reducerFragment ? reducerFragment(state, action.payload) : state
+    return mutation ? mutation(state, ...action.payload) : state
   }
 
   return { createAction, reducer }
 }
+
+export default ActionReducer

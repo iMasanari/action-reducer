@@ -1,5 +1,5 @@
 import * as assert from 'power-assert'
-import ActionReducer, { OptionalActionCreator } from '../src/'
+import ActionReducer from '../src/'
 
 interface State {
   flag: boolean
@@ -74,13 +74,20 @@ describe('createAction', () => {
   })
 
   it('check ActionCreator create Action', () => {
-    const PAYLOAD: string = 'test-payload'
+    const CASES = {
+      case1: [],
+      case2: ['test-arg'],
+      case3: ['test-arg1', 'test-arg2'],
+    } as const
 
     const { createAction } = ActionReducer(initState)
-    const actionCreator = createAction<typeof PAYLOAD>((state) => state)
-    const action = actionCreator(PAYLOAD)
+    const actionCreator = createAction((state, ..._args: string[]) => state)
 
-    assert.deepEqual(action, { type: actionCreator.type, payload: PAYLOAD })
+    for (const [message, args] of Object.entries(CASES)) {
+      const action = actionCreator(...args)
+
+      assert.deepEqual(action.payload, args, message)
+    }
   })
 })
 
@@ -101,58 +108,33 @@ describe('reducer (+ createAction)', () => {
     assert.deepEqual(state, initState)
   })
 
-  it('check reducers called (enpty payload action)', () => {
+  it('check reducers newState', () => {
+    const initState = Symbol('initState') as symbol
+    const resultState = Symbol('result')
+
     const { reducer, createAction } = ActionReducer(initState)
-    const toggleFlag = createAction((state) =>
-      ({ ...state, flag: !state.flag })
-    )
 
-    for (const FLAG of [true, false]) {
-      const store = { ...initState, flag: FLAG }
-      const state = reducer(store, toggleFlag())
+    const action = createAction(() => resultState)
+    const state = reducer(initState, action())
 
-      assert.equal(state.flag, !FLAG)
-    }
+    assert.equal(state, resultState)
   })
 
-  it('check reducers called (payload action)', () => {
-    const { reducer, createAction } = ActionReducer(initState)
-    const setFlag = createAction((state, payload: boolean) =>
-      ({ ...state, flag: payload })
-    )
+  it('check reducers payload', () => {
+    const CASES = {
+      case1: [],
+      case2: ['test-arg'],
+      case3: ['test-arg1', 'test-arg2'],
+    } as const
 
-    for (const storeFlag of [true, false]) {
-      const store = { ...initState, flag: storeFlag }
+    const { reducer, createAction } = ActionReducer(['initState'])
 
-      for (const FLAG of [true, false]) {
-        const state = reducer(store, setFlag(FLAG))
+    const action = createAction((_state, ...payload: string[]) => payload)
 
-        assert.equal(state.flag, FLAG)
-      }
-    }
-  })
+    for (const [message, payload] of Object.entries(CASES)) {
+      const state = reducer(['initState'], action(...payload))
 
-  it('check reducers called (optional payload action)', () => {
-    const DEFAULT_FLAG = true
-
-    const { reducer, createAction } = ActionReducer(initState)
-
-    const optionalAction: OptionalActionCreator<boolean> = createAction(
-      (state, payload: boolean = DEFAULT_FLAG) =>
-        ({ ...state, flag: payload })
-    )
-
-    for (const storeFlag of [true, false]) {
-      const store = { ...initState, flag: storeFlag }
-      const enptyCase = reducer(store, optionalAction())
-
-      assert.equal(enptyCase.flag, DEFAULT_FLAG)
-
-      for (const FLAG of [true, false]) {
-        const payloadCase = reducer(store, optionalAction(FLAG))
-
-        assert.equal(payloadCase.flag, FLAG)
-      }
+      assert.deepEqual(state, payload, message)
     }
   })
 })

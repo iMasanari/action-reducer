@@ -1,6 +1,6 @@
 {
   "name": "action-reducer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Type-safe ActionCreator and Reducer library",
   "main": "dist/action-reducer.cjs.js",
   "module": "dist/action-reducer.esm.js",
@@ -9,15 +9,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run build:rollup && npm run build:cpx",
-    "build:rollup": "rollup -c rollup.config.ts",
-    "build:cpx": "cpx \"src/*.{d.ts,js.flow}\" dist",
-    "test": "npm run test:types && npm run test:types-nullable && npm run test:flow && npm run test:mocha",
-    "test:types": "tsc -p . --noEmit --strict",
-    "test:types-nullable": "tsc -p . --noEmit --strict --strictNullChecks false",
-    "test:flow": "flow check",
+    "build": "npm run build:rollup && npm run build:types && npm run build:cpx",
+    "build:rollup": "rollup -c",
+    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir dist/types src/index.ts",
+    "build:cpx": "cpx \"src/*.d.ts\" dist",
+    "test": "npm run test:types && npm run test:mocha",
+    "test:types": "tsc -p . --noEmit",
     "test:mocha": "mocha --require ts-node/register tests/*.test.ts",
-    "clean": "rm -r ./dist/*",
+    "clean": "rm -rf ./dist/*",
     "prepare": "npm run test && npm run clean && npm run build"
   },
   "repository": {
@@ -33,16 +32,18 @@
   "author": "i-masanari",
   "license": "MIT",
   "devDependencies": {
-    "@types/mocha": "^5.0.0",
-    "@types/node": "^9.6.5",
-    "@types/power-assert": "^1.5.0",
+    "@rollup/plugin-buble": "^0.21.1",
+    "@rollup/plugin-typescript": "^3.0.0",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.1",
+    "@types/power-assert": "^1.5.3",
     "cpx": "^1.5.0",
-    "flow-bin": "^0.69.0",
-    "mocha": "^5.1.0",
-    "power-assert": "^1.5.0",
-    "rollup": "^0.57.1",
-    "rollup-plugin-typescript2": "^0.13.0",
-    "ts-node": "^5.0.1",
-    "typescript": "^2.8.1"
+    "mocha": "^7.0.1",
+    "power-assert": "^1.6.1",
+    "rollup": "^1.31.1",
+    "spec.ts": "^1.1.3",
+    "ts-node": "^8.6.2",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.5"
   }
 }
