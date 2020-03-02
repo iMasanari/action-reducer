@@ -1,5 +1,5 @@
 import { assert, test, _ } from 'spec.ts'
-import ActionReducer from '../src/'
+import ActionReducer, { AnyAction, CreateAction, CreateActionWithPrefix } from '../src/'
 
 interface State { flag: boolean }
 
@@ -152,4 +152,36 @@ test(() => {
 
   assert(case1, _ as Result)
   assert(case2, _ as Result)
+})
+
+// React (useReducer)
+test(() => {
+  const { createAction, reducer } = ActionReducer<State>()
+
+  assert(createAction, _ as CreateAction<State>)
+  assert(reducer, _ as (state: State, action: AnyAction) => State)
+})
+
+// React (useReducer) with prefix
+test(() => {
+  const { createAction, reducer } = ActionReducer<State>(undefined, 'prefix')
+
+  assert(createAction, _ as CreateActionWithPrefix<State>)
+  assert(reducer, _ as (state: State, action: AnyAction) => State)
+})
+
+// Redux
+test(() => {
+  const { createAction, reducer } = ActionReducer(initState)
+
+  assert(createAction, _ as CreateAction<State>)
+  assert(reducer, _ as (state: State | undefined, action: AnyAction) => State)
+})
+
+// Redux with prefix
+test(() => {
+  const { createAction, reducer } = ActionReducer(initState, 'prefix')
+
+  assert(createAction, _ as CreateActionWithPrefix<State>)
+  assert(reducer, _ as (state: State | undefined, action: AnyAction) => State)
 })
