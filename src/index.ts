@@ -51,12 +51,12 @@ const ActionReducer: ActionReducer = <S>(initState: S, prefix?: string) => {
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}${type as string}` : type
+    type = prefix ? `${prefix}${type as string}` : (type as string)
 
-    const actionCreator = ((...payload: P) => ({ type, payload })) as ActionCreator<P, string>
+    const actionCreator = (...payload: P) => ({ type, payload }) as Action<P, string>
 
-    actionCreator.type = (type) as string
-    mutations[type as string] = mutation as Mutation<S, unknown[]>
+    actionCreator.type = type
+    mutations[type] = mutation as Mutation<S, unknown[]>
 
     return actionCreator
   }
