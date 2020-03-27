@@ -27,6 +27,16 @@ export interface CreateActionWithPrefix<S> {
 }
 
 interface ActionReducer {
+  // 初期Stateなし
+  <S>(initState: undefined, prefix: string): {
+    createAction: CreateActionWithPrefix<S>
+    reducer: (state: S, action: AnyAction) => S
+  }
+  <S>(initState?: undefined): {
+    createAction: CreateAction<S>
+    reducer: (state: S, action: AnyAction) => S
+  }
+  // 初期Stateあり
   <S>(initState: S, prefix: string): {
     createAction: CreateActionWithPrefix<S>
     reducer: (state: S | undefined, action: AnyAction) => S
@@ -39,7 +49,7 @@ interface ActionReducer {
 
 let typeId = 0
 
-const ActionReducer: ActionReducer = <S>(initState: S, prefix?: string) => {
+const ActionReducer: ActionReducer = <S>(initState?: S, prefix?: string) => {
   const mutations = Object.create(null) as Record<string, Mutation<S, unknown[]> | undefined>
 
   const createAction = <P extends unknown[]>(
@@ -51,17 +61,17 @@ const ActionReducer: ActionReducer = <S>(initState: S, prefix?: string) => {
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}${type as string}` : type
+    type = prefix ? `${prefix}${type as string}` : (type as string)
 
-    const actionCreator = ((...payload: P) => ({ type, payload })) as ActionCreator<P, string>
+    const actionCreator = (...payload: P) => ({ type, payload }) as Action<P, string>
 
-    actionCreator.type = (type) as string
-    mutations[type as string] = mutation as Mutation<S, unknown[]>
+    actionCreator.type = type
+    mutations[type] = mutation as Mutation<S, unknown[]>
 
     return actionCreator
   }
 
-  const reducer = (state = initState, action: AnyAction) => {
+  const reducer = (state = initState!, action: AnyAction) => {
     const mutation = mutations[action.type]
 
     return mutation ? mutation(state, ...action.payload) : state

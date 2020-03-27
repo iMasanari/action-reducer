@@ -1,5 +1,7 @@
+import React from 'react'
+import Redux from 'redux'
 import { assert, test, _ } from 'spec.ts'
-import ActionReducer from '../src/'
+import ActionReducer, { AnyAction, CreateAction, CreateActionWithPrefix } from '../src/'
 
 interface State { flag: boolean }
 
@@ -152,4 +154,48 @@ test(() => {
 
   assert(case1, _ as Result)
   assert(case2, _ as Result)
+})
+
+// React (useReducer)
+test(() => {
+  const { createAction, reducer } = ActionReducer<State>()
+  const [state, dispatch] = React.useReducer(reducer, initState)
+
+  assert(createAction, _ as CreateAction<State>)
+  assert(reducer, _ as (state: State, action: AnyAction) => State)
+  assert(state, _ as State)
+  assert(dispatch, _ as React.Dispatch<AnyAction>)
+})
+
+// React (useReducer) with prefix
+test(() => {
+  const { createAction, reducer } = ActionReducer<State>(undefined, 'prefix')
+  const [state, dispatch] = React.useReducer(reducer, initState)
+
+  assert(createAction, _ as CreateActionWithPrefix<State>)
+  assert(reducer, _ as (state: State, action: AnyAction) => State)
+  assert(state, _ as State)
+  assert(dispatch, _ as React.Dispatch<AnyAction>)
+})
+
+// Redux
+test(() => {
+  const { createAction, reducer } = ActionReducer(initState)
+  const store = Redux.createStore(reducer)
+
+  assert(createAction, _ as CreateAction<State>)
+  assert(reducer, _ as (state: State | undefined, action: AnyAction) => State)
+  assert(store.getState(), _ as State)
+  assert(store.dispatch, _ as Redux.Dispatch<AnyAction>)
+})
+
+// Redux with prefix
+test(() => {
+  const { createAction, reducer } = ActionReducer(initState, 'prefix')
+  const store = Redux.createStore(reducer)
+
+  assert(createAction, _ as CreateActionWithPrefix<State>)
+  assert(reducer, _ as (state: State | undefined, action: AnyAction) => State)
+  assert(store.getState(), _ as State)
+  assert(store.dispatch, _ as Redux.Dispatch<AnyAction>)
 })

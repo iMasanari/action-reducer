@@ -23,9 +23,6 @@ import ActionReducer from 'action-reducer'
 const initState = { flag: false }
 const { createAction, reducer } = ActionReducer(initState)
 
-// reducer can be used as Redux Reducer!!
-export default reducer
-
 export const toggleFlag = createAction(
   'TOGGLE_FLAG', // action type (Optional arg)
   (state) =>     // Reducer for this action
@@ -38,14 +35,21 @@ export const setFlag = createAction(
     ({ ...state, flag: arg1 })
 )
 
+// reducer can be used as Redux Reducer!!
+export default reducer
+
 setFlag.type  // 'SET_FLAG'
-setFlag(true) // { type: 'SET_FLAG', payload: true }
+setFlag(true) // { type: 'SET_FLAG', payload: [true] }
 reducer(initState, setFlag(true)) // { flag: true }
 ```
 
 ### TypeScript
 
 ```ts
+const { createAction, reducer } = ActionReducer(initState)
+// OR
+// const { createAction, reducer } = ActionReducer<State>()
+
 // just specify the type in the argument
 export const setFlag = createAction(
   'SET_FLAG',
@@ -79,7 +83,7 @@ export default combineReducers({
 
 ### `ActionReducer<State>(initState, prefix?)`
 
-- initState (`State`): Redux initial State.
+- initState? (`State`): Redux initial State. (Optional arg for React `useReducer`)
 - prefix? (`string`): Prefix for action type. (Optional arg)
 - return (`{ createAction: CreateAction, reducer: Reducer }`): CreateAction and Reducer.
 
@@ -94,7 +98,7 @@ export default combineReducers({
 - ...args (`Payload`): Action args.
 - return (`{ type: string | symbol, payload: Payload }`): Action object.
 
-### `Reducer(state: State | undefined, action: any)`
+### `Reducer(state: State, action: any)`
 
 - state (`State`): Current state.
 - action (`any`): Action object.
