@@ -61,6 +61,25 @@ test(() => {
   assert(case1, _ as Result)
 })
 
+// Action type (object)
+test(() => {
+  const case1 = createAction({ type: 'test' }, (state) =>
+    ({ ...state, flag: !state.flag })
+  )
+
+  const case2 = createActionWithPrefix({ type: 'test' }, (state) =>
+    ({ ...state, flag: !state.flag })
+  )
+
+  interface Result {
+    (): { type: 'test', payload: [] }
+    type: 'test'
+  }
+
+  assert(case1, _ as Result)
+  assert(case2, _ as Result)
+})
+
 // 引数なし
 test(() => {
   const case1 = createAction((state) =>

@@ -16,13 +16,13 @@ export interface ActionCreator<P extends unknown[], T extends string | symbol> {
 export type Mutation<S, P extends unknown[]> = (state: Readonly<S>, ...payload: P) => S
 
 export interface CreateAction<S> {
-  <P extends unknown[], T extends string | symbol>(type: T, mutation: Mutation<S, P>): ActionCreator<P, T>
   <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
-  <P extends unknown[]>(type: string | symbol, mutation: Mutation<S, P>): ActionCreator<P, string | symbol>
+  <P extends unknown[], T extends string | symbol>(type: T | { type: T }, mutation: Mutation<S, P>): ActionCreator<P, T>
 }
 
 export interface CreateActionWithPrefix<S> {
   <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
+  <P extends unknown[], T extends string>(type: { type: T }, mutation: Mutation<S, P>): ActionCreator<P, T>
   <P extends unknown[]>(type: string, mutation: Mutation<S, P>): ActionCreator<P, string>
 }
 
@@ -47,13 +47,15 @@ interface ActionReducer {
   }
 }
 
+type TypeObject = { type: string | symbol }
+
 let typeId = 0
 
 const ActionReducer: ActionReducer = <S>(initState?: S, prefix?: string) => {
   const mutations = Object.create(null) as Record<string, Mutation<S, unknown[]> | undefined>
 
   const createAction = <P extends unknown[]>(
-    type: string | symbol | Mutation<S, P>,
+    type: string | symbol | TypeObject | Mutation<S, P>,
     mutation?: Mutation<S, P>,
   ) => {
     if (typeof type === 'function') {
@@ -61,7 +63,11 @@ const ActionReducer: ActionReducer = <S>(initState?: S, prefix?: string) => {
       type = `@@ActionReducer-${++typeId}`
     }
 
-    type = prefix ? `${prefix}${type as string}` : (type as string)
+    type = (
+      null != (type as TypeObject).type ? (type as TypeObject).type
+        : prefix ? prefix + (type as string)
+          : type
+    ) as string
 
     const actionCreator = (...payload: P) => ({ type, payload }) as Action<P, string>
 

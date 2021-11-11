@@ -73,6 +73,29 @@ describe('createAction', () => {
     assert.equal(action.type, PREFIX + ACTION_TYPE)
   })
 
+  it('check set actionType with object', () => {
+    const ACTION_TYPE = 'test-action-type'
+
+    const { createAction } = ActionReducer(initState)
+    const actionCreator = createAction({ type: ACTION_TYPE }, (state) => state)
+    const action = actionCreator()
+
+    assert.equal(actionCreator.type, ACTION_TYPE)
+    assert.equal(action.type, ACTION_TYPE)
+  })
+
+  it('check set actionType with object + prefix', () => {
+    const PREFIX = 'test-prefix/'
+    const ACTION_TYPE = 'test-action-type'
+
+    const { createAction } = ActionReducer(initState, PREFIX)
+    const actionCreator = createAction({ type: ACTION_TYPE }, (state) => state)
+    const action = actionCreator()
+
+    assert.equal(actionCreator.type, ACTION_TYPE)
+    assert.equal(action.type, ACTION_TYPE)
+  })
+
   it('check ActionCreator create Action', () => {
     const CASES = {
       case1: [],
