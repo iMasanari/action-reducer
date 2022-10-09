@@ -1,6 +1,6 @@
-import ActionReducer from '../dist/types'
+import ActionReducer from '.'
 
-export * from '../dist/types'
+export * from '.'
 export default ActionReducer
 
 export as namespace ActionReducer

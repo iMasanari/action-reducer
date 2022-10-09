@@ -3,7 +3,7 @@
   "version": "0.3.1",
   "description": "Type-safe ActionCreator and Reducer library",
   "main": "dist/action-reducer.cjs.js",
-  "types": "dist/action-reducer.d.ts",
+  "types": "dist/types/action-reducer.d.ts",
   "exports": {
     "require": "./dist/action-reducer.cjs.js",
     "import": "./dist/action-reducer.mjs"
@@ -12,10 +12,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run build:rollup && npm run build:types && npm run build:cpx",
+    "build": "npm run build:rollup && npm run build:types",
     "build:rollup": "rollup -c",
-    "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir dist/types src/index.ts",
-    "build:cpx": "cpx \"src/*.d.ts\" dist",
+    "build:types": "tsc -p tsconfig.declaration.json",
+    "postbuild:types": "cpx \"src/*.d.ts\" dist/types",
     "test": "npm run test:types && npm run test:vitest",
     "test:types": "tsc -p . --noEmit",
     "test:vitest": "vitest run",
