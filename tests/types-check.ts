@@ -80,6 +80,22 @@ test(() => {
   assert(case2, _ as Result)
 })
 
+// Action type (function)
+test(() => {
+  const commonAction = createAction('test', (state, _arg1: string, _arg2: number) => state)
+
+  const case1 = createAction(commonAction, (state, _arg1, _arg2) => state)
+  const case2 = createActionWithPrefix(commonAction, (state, _arg1, _arg2) => state)
+
+  interface Result {
+    (arg1: string, arg2: number): { type: 'test', payload: [string, number] }
+    type: 'test'
+  }
+
+  assert(case1, _ as Result)
+  assert(case2, _ as Result)
+})
+
 // 引数なし
 test(() => {
   const case1 = createAction((state) =>

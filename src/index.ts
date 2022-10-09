@@ -16,11 +16,13 @@ export interface ActionCreator<P extends unknown[], T extends string | symbol> {
 export type Mutation<S, P extends unknown[]> = (state: Readonly<S>, ...payload: P) => S
 
 export interface CreateAction<S> {
+  <P extends unknown[], T extends string | symbol>(type: ActionCreator<P, T>, mutation: Mutation<S, P>): ActionCreator<P, T>
   <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
   <P extends unknown[], T extends string | symbol>(type: T | { type: T }, mutation: Mutation<S, P>): ActionCreator<P, T>
 }
 
 export interface CreateActionWithPrefix<S> {
+  <P extends unknown[], T extends string | symbol>(type: ActionCreator<P, T>, mutation: Mutation<S, P>): ActionCreator<P, T>
   <P extends unknown[]>(mutation: Mutation<S, P>): ActionCreator<P, string>
   <P extends unknown[], T extends string>(type: { type: T }, mutation: Mutation<S, P>): ActionCreator<P, T>
   <P extends unknown[]>(type: string, mutation: Mutation<S, P>): ActionCreator<P, string>
@@ -58,8 +60,8 @@ const ActionReducer: ActionReducer = <S>(initState?: S, prefix?: string) => {
     type: string | symbol | TypeObject | Mutation<S, P>,
     mutation?: Mutation<S, P>,
   ) => {
-    if (typeof type === 'function') {
-      mutation = type
+    if (mutation === undefined) {
+      mutation = type as Mutation<S, P>
       type = `@@ActionReducer-${++typeId}`
     }
 
