@@ -79,6 +79,22 @@ export default combineReducers({
 })
 ```
 
+### with Prefix
+
+```js
+const { createAction } = ActionReducer(initState, 'PREFIX/')
+
+// with prefix
+const fooAction = createAction('foo', fooFn)
+fooAction.type  // PREFIX/foo
+fooAction() // { type: 'PREFIX/foo', payload: [] }
+
+// The prefix is ignored when specifying an object
+const barAction = createAction({ type: 'bar' }, barFn)
+barAction.type // bar
+barAction() // { type: 'bar', payload: [] }
+```
+
 ## API
 
 ### `ActionReducer<State>(initState, prefix?)`
@@ -89,7 +105,7 @@ export default combineReducers({
 
 ### `CreateAction<Payload>(type?, mutation)`
 
-- type? (`string | symbol`): Action type. (Optional arg)
+- type? (`string | symbol | { type: string }`): Action type. (Optional arg)
 - mutation (`(state: State, ...args: Payload) => State`): Mutation for this action.
 - return (`AcitonCreator`): Action creator function.
 
