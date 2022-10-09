@@ -17,10 +17,10 @@ export default {
     exports: 'named',
   }, {
     format: 'cjs',
-    file: packages.main,
+    file: packages.exports.require,
     exports: 'named',
   }, {
     format: 'es',
-    file: packages.module,
+    file: packages.exports.import,
   }],
 }
