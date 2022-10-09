@@ -35,7 +35,6 @@
   "author": "i-masanari",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-buble": "^1.0.0",
     "@rollup/plugin-typescript": "^8.5.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.8.3",
