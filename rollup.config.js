@@ -7,7 +7,7 @@ import packages from './package.json'
 export default {
   input: './src/index.ts',
   plugins: [
-    typescript(),
+    typescript({ declaration: false }),
     buble(),
   ],
   output: [{
