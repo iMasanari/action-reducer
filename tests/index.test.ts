@@ -1,4 +1,4 @@
-import * as assert from 'power-assert'
+import { it, describe, assert } from 'vitest'
 import ActionReducer from '../src/'
 
 interface State {
@@ -134,7 +134,7 @@ describe('createAction', () => {
     for (const [message, args] of Object.entries(CASES)) {
       const action = actionCreator(...args)
 
-      assert.deepEqual(action.payload, args, message)
+      assert.deepEqual<readonly string[]>(action.payload, args, message)
     }
   })
 })
@@ -182,7 +182,7 @@ describe('reducer (+ createAction)', () => {
     for (const [message, payload] of Object.entries(CASES)) {
       const state = reducer(['initState'], action(...payload))
 
-      assert.deepEqual(state, payload, message)
+      assert.deepEqual<readonly string[]>(state, payload, message)
     }
   })
 })

@@ -1,12 +1,12 @@
 // @ts-check
 
-import typescript from '@rollup/plugin-typescript'
+import esbuild from 'rollup-plugin-esbuild'
 import packages from './package.json'
 
 export default {
   input: './src/index.ts',
   plugins: [
-    typescript({ declaration: false }),
+    esbuild({ target: 'es2015' }),
   ],
   output: [{
     format: 'umd',

@@ -16,9 +16,9 @@
     "build:rollup": "rollup -c",
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir dist/types src/index.ts",
     "build:cpx": "cpx \"src/*.d.ts\" dist",
-    "test": "npm run test:types && npm run test:mocha",
+    "test": "npm run test:types && npm run test:vitest",
     "test:types": "tsc -p . --noEmit",
-    "test:mocha": "mocha --require ts-node/register tests/*.test.ts",
+    "test:vitest": "vitest run",
     "clean": "rm -rf ./dist/*",
     "prepare": "npm run test && npm run clean && npm run build"
   },
@@ -35,19 +35,14 @@
   "author": "i-masanari",
   "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.5.0",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.8.3",
-    "@types/power-assert": "^1.5.8",
     "@types/react": "^18.0.21",
     "cpx": "^1.5.0",
-    "mocha": "^10.0.0",
-    "power-assert": "^1.6.1",
     "redux": "^4.2.0",
     "rollup": "^2.79.1",
+    "rollup-plugin-esbuild": "^4.10.1",
     "spec.ts": "^1.1.3",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.4.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "vitest": "^0.24.0"
   }
 }
